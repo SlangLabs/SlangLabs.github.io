@@ -1,0 +1,571 @@
+
+<!doctype html>
+
+<html>
+<head>
+  <meta name="viewport" content="width=device-width, minimum-scale=1.0, initial-scale=1.0, user-scalable=yes">
+  <meta name="theme-color" content="#4F7DC9">
+  <meta charset="UTF-8">
+  <title></title>
+  <link rel="stylesheet" href="//fonts.googleapis.com/css?family=Source+Code+Pro:400|Roboto:400,300,400italic,500,700|Roboto+Mono">
+  <link rel="stylesheet" href="//fonts.googleapis.com/icon?family=Material+Icons">
+  <link rel="stylesheet" href="https://storage.googleapis.com/codelab-elements/codelab-elements.css">
+  <style>
+    .success {
+      color: #1e8e3e;
+    }
+    .error {
+      color: red;
+    }
+  </style>
+</head>
+<body>
+  <google-codelab-analytics gaid="UA-49880327-14"></google-codelab-analytics>
+  <google-codelab codelab-gaid=""
+                  id=""
+                  title=""
+                  environment="web"
+                  feedback-link="">
+    
+      <google-codelab-step label="Welcome!" duration="0">
+        <p>In this codelab, you will learn how to voice-enable your Android app in Java using the Slang SDK.</p>
+<h2 is-upgraded>What you should know</h2>
+<p>This codelab assumes you have a basic knowledge of Java. Brownie points if you have worked with Android before. If you are an experienced programmer and you are proficient in reading code, you will likely be able to follow this codelab even if you don&#39;t have much experience with Java.</p>
+<h2 is-upgraded>What you will learn</h2>
+<ul>
+<li>How to use Android Studio to build an app</li>
+<li>How to make your app interactive</li>
+<li>How to display a second screen</li>
+<li>How to add voice to your app</li>
+<li>How to navigate your app using voice</li>
+</ul>
+<h2 is-upgraded>What you will do</h2>
+<p>You will create a new project in Android Studio, add voice to it and perform actions inside the app using voice.</p>
+<h2 is-upgraded>What you will need</h2>
+<p>To work through this codelab you will need a computer that can run Android Studio (or already has Android Studio installed).</p>
+
+
+      </google-codelab-step>
+    
+      <google-codelab-step label="Install Android Studio" duration="0">
+        <p>You use Android Studio to build Android apps. Based on JetBrains&#39; IntelliJ IDEA software, Android Studio is an IDE designed specifically for Android development.</p>
+<p>Android Studio is available for Windows, Mac, and Linux computers. The installation is similar for all platforms. Any differences are noted in the sections below.</p>
+<p>If you are using a computer that already has Android Studio installed, go to the next task Create your Android Studio Project.</p>
+<h2 is-upgraded>Install Java if needed</h2>
+<p>To get up and running with Android Studio, you may need to install the Java Development Kit - Java 7 or better.</p>
+<aside class="special"><p><strong>Important</strong>: Don&#39;t install Android Studio until after the Java JDK is installed. Without a working copy of Java, the rest of the process will not work.</p>
+</aside>
+<h3 is-upgraded><strong>Install the Java Development Kit</strong></h3>
+<ol type="1" start="1">
+<li>On your computer open a terminal window</li>
+<li>Type <code>java -version</code></li>
+</ol>
+<p>The output includes this line:</p>
+<p><code>Java(™) SE Runtime Environment (build 1.X.0_05-b13)</code></p>
+<p><em><code>X</code></em> is the version number to look at.</p>
+<ul>
+<li>If this is 7 or greater, you can move on to install Android Studio.</li>
+<li>If you see a Java SE version below 7 or if Java is not installed, you need to install the latest version of the Java Development Kit before installing Android Studio.</li>
+</ul>
+<aside class="special"><p><strong>Note</strong>: You might need to have the <code>java</code> command configured in the path to get any results from <code>java -version</code>. You can type</p>
+<p><code>whereis java</code></p>
+<p>in the terminal window to see where Java is installed.</p>
+</aside>
+<p>To download the Java Standard Edition Development Kit (JDK):</p>
+<ol type="1" start="1">
+<li>Go to this <a href="https://drive.google.com/drive/folders/1btnGjTzwMWY6fwMiVwavI1_mBTOWlh7r?usp=sharing" target="_blank">link</a>.</li>
+<li>Choose the version appropriate for your computer. </li>
+<li>Install the development kit. It should only take a few minutes.</li>
+<li>When the installation has finished, open a terminal window and type <code>java -version</code> again to verify that installation has been successful.</li>
+<li>Set the JAVA_HOME environment variable to the installation directory of the JDK (see machine-specific instructions below).</li>
+</ol>
+<h3 is-upgraded><strong>Set JAVA_HOME</strong></h3>
+<p><strong>Windows:</strong></p>
+<p>Set JAVA_HOME to the installation location:</p>
+<ol type="1" start="1">
+<li>Start &gt; Control Panel &gt; System &gt; Advanced System Settings &gt; Environment Variables System Variables &gt; New</li>
+</ol>
+<ul>
+<li>Variable name: JAVA_HOME</li>
+<li>Variable value: C:\Program Files\Java\jdk1.7.0_80 (or whatever version your installation is!)</li>
+</ul>
+<ol type="1" start="1">
+<li>If the variable already exists, update it to your version of the JDK.</li>
+</ol>
+<p>Verify your JAVA_HOME variable from a cmd.exe terminal: <code>echo %JAVA_HOME%</code>.</p>
+<p>For more details, see <a href="https://docs.oracle.com/cd/E19182-01/820-7851/inst_cli_jdk_javahome_t/" target="_blank">Installing the JDK Software and Setting JAVA_HOME</a>.</p>
+<p><strong>Mac:</strong></p>
+<p>Set JAVA_HOME to the installation location:</p>
+<ol type="1" start="1">
+<li>Open Terminal.</li>
+<li>Navigate to your home directory using <code>cd</code></li>
+<li>Open the file <code>~/.bash_profile</code> which is a configuration file for your terminal</li>
+<li>Add the following command to the file:: <br><code>export JAVA_HOME=$(/usr/libexec/java_home)</code></li>
+<li>Reload the configuration file using:<br><code>source ~/.bash_profile</code></li>
+<li>Enter <code>echo $JAVA_HOME</code> to confirm the path.</li>
+</ol>
+<p><strong>Linux:</strong></p>
+<p>Set JAVA_HOME to the installation location:</p>
+<p>See <a href="https://docs.oracle.com/cd/E19182-01/820-7851/inst_cli_jdk_javahome_t/" target="_blank">Installing the JDK Software and Setting JAVA_HOME</a></p>
+<aside class="special"><p><strong>Troubleshooting:</strong> If there is no UI, control panel, or startup icon associated with the JDK, verify that you have correctly installed the JDK by going to the directory where you installed it. To identify where the JDK is, look at your PATH variable or search your computer for the <code>jdk</code> directory or the <code>java</code> or <code>javac</code> executables.</p>
+</aside>
+<h2 is-upgraded>Install Android Studio</h2>
+<ol type="1" start="1">
+<li>Go to the <a href="https://developer.android.com/studio/index.html" target="_blank">Android developers site</a> and follow the instructions to download and <a href="https://developer.android.com/studio/install.html" target="_blank">install Android Studio</a>.</li>
+</ol>
+<ul>
+<li>Accept the default configurations for all steps.</li>
+<li>Make sure that all components are selected for installation.</li>
+</ul>
+<ol type="1" start="1">
+<li>After finishing the install, the Setup Wizard downloads and installs additional components. Be patient, because this might take some time depending on your Internet speed, and some of the steps may seem redundant.</li>
+<li>When the download completes, Android Studio starts, and you are ready to create your first project.</li>
+</ol>
+<aside class="special"><p><strong>Troubleshooting</strong>: If you run into problems with your installation, check the latest documentation (listed below) and programming forums.</p>
+</aside>
+<h3 is-upgraded><strong>Learn more about installing Android Studio</strong></h3>
+<ul>
+<li><a href="http://developer.android.com/sdk/index.html" target="_blank">Android Studio download page</a></li>
+<li><a href="https://java.com/en/download/help/download_options.xml" target="_blank">How do I install Java?</a></li>
+<li><a href="http://developer.android.com/tools/studio/index.html" target="_blank">Android Studio documentation</a></li>
+</ul>
+
+
+      </google-codelab-step>
+    
+      <google-codelab-step label="Create your Android Studio Project" duration="0">
+        <p>In this step, you will create a new Android project. This simple app displays the string &#34;Hello World&#34; on the screen of the Android virtual or physical device.</p>
+<p>Here&#39;s what the app will look like at the end of this task:</p>
+<p class="image-container"><img style="width: 253.74px" src="img/4c9825b20f1a1938.png"></p>
+<h2 is-upgraded>Create a new project</h2>
+<ol type="1" start="1">
+<li>Open Android Studio.</li>
+<li>In the main <strong>Welcome to Android Studio</strong> dialog, click <strong>Start a new Android Studio project</strong>.</li>
+<li>Select <strong>Empty Activity</strong>. Click <strong>Next</strong>.</li>
+<li>Give your application a name such as <strong>My First App</strong>.</li>
+<li>Accept the default example domain.</li>
+<li>Accept the default project location.</li>
+<li>In the <strong>Minimum API level</strong>, accept the default. Click <strong>Next</strong>.</li>
+<li>Click <strong>Finish</strong>.</li>
+</ol>
+<p>After these steps, Android Studio:</p>
+<ul>
+<li>Creates a folder for your Android Studio project. This is usually in a folder called AndroidStudioProjects.</li>
+<li>Builds your project (this may take a few moments). Android Studio uses Gradle as its build system.</li>
+<li>Opens the code editor showing your project.</li>
+</ul>
+<p>The Android Studio window should look similar to the following diagram:</p>
+<p class="image-container"><img style="width: 624.00px" src="img/2e003e1b4a9438d9.png"></p>
+<h2 is-upgraded><strong>Explore the project structure and layout</strong></h2>
+<p>You can look at the hierarchy of the files for your app in multiple ways.</p>
+<ol type="1" start="1">
+<li>Click the <strong>app (1)</strong> folder to expand the hierarchy of files. (See 1 in the screenshot.)</li>
+<li>Click <strong>Project (2)</strong>. You might need to select <strong>View &gt; Tool Buttons</strong> to see this option.</li>
+<li>The current Project view selection is Project &gt; Android. Click <strong>Android (3)</strong> to explore the other Project views that are available.</li>
+</ol>
+<p>In the Project &gt; Android view you see three top-level folders below your <strong>app</strong> folder: <strong>manifests</strong>, <strong>java</strong>, and <strong>res</strong>.</p>
+<ol type="1" start="1">
+<li>Expand the <strong>manifests</strong> folder. <br><br>This folder contains AndroidManifest.xml. This file describes all the components of your Android app and is read by the Android runtime system when your app is executed.</li>
+<li>Expand the <strong>java</strong> folder. All your Java language files are organized here. The <strong>java</strong> folder contains three subfolders:<br><br><strong>com.example.android.myfirstapp</strong> (or the domain name you have specified): This folder contains the Java source code files for your app. <br><br><strong>com.example.android.myfirstapp (androidTest)</strong>: This folder is where you would put your instrumented tests. It starts out with a skeleton test file. <br><br><strong>com.example.android.myfirstapp (test)</strong>: This folder is where you would put your unit tests. It starts out with a skeleton unit test file.</li>
+<li>Expand the <strong>res</strong> folder. This folder contains all the resources for your app, including images, layout files, strings, icons, and styling. It includes these subfolders:<br><br><strong>drawable</strong>: All your app&#39;s images will be stored in this folder.<br><br><strong>layout</strong>: This folder contains the layout files for your activities. Currently, your app has one activity that has a layout file called activity_main.xml.<br><br><strong>mipmap</strong>: This folder contains the launcher icons for your app. <br><br><strong>values</strong>: Contains resources, such as strings and colors, used in your app.</li>
+</ol>
+<h2 is-upgraded>Run your app on a device (Recommended)</h2>
+<p>What you need:</p>
+<ul>
+<li>An Android device such as a phone or tablet.</li>
+<li>A data cable to connect your Android device to your computer via the USB port.</li>
+<li>If you are using a Linux or Windows OS, you may need to perform additional steps to run your app on a hardware device. Check the <a href="http://developer.android.com/tools/device.html" target="_blank">Run Apps on a Hardware Device</a> documentation. On Windows, you may need to install the appropriate USB driver for your device. See <a href="http://developer.android.com/tools/extras/oem-usb.html" target="_blank">OEM USB Drivers</a>.</li>
+</ul>
+<h3 is-upgraded>Run your app on a device</h3>
+<p>To let Android Studio communicate with your device, you must turn on USB Debugging on your Android device.</p>
+<p>On Android 4.2 and higher, the Developer options screen is hidden by default. To show Developer options and enable USB Debugging:</p>
+<ol type="1" start="1">
+<li>On your device, open <strong>Settings &gt; About phone</strong> and tap <strong>Build number</strong> seven times.</li>
+<li>Return to the previous screen (<strong>Settings</strong>). <strong>Developer options</strong> appears at the bottom of the list. Tap <strong>Developer options</strong>.</li>
+<li>Enable <strong>USB Debugging</strong>.</li>
+</ol>
+<p>Now you can connect your device and run the app from Android Studio.</p>
+<ol type="1" start="1">
+<li>Connect your device to your development machine with a USB cable. On the device, you might need to agree to allow USB debugging from your development device.</li>
+<li>Click <strong>Run</strong> in the toolbar at the top of the window. (You might need to select View &gt; Toolbar to see this option.) The <strong>Select Deployment Target</strong> dialog opens with the list of available emulators and connected devices. <img style="width: 24.00px" src="img/6c65750f2ce7f651.png"></li>
+<li>Select your device, and click <strong>OK</strong>.</li>
+</ol>
+<aside class="special"><p><strong>Note</strong>: If your device is running an Android platform that isn&#39;t installed in Android Studio, you might see a message asking if you want to install the needed platform. Click <strong>Install and Continue</strong>, then click <strong>Finish</strong> when the process is complete.</p>
+</aside>
+<p>Android Studio installs the app on your device and runs it.</p>
+<h2 is-upgraded>Run your app on an emulator</h2>
+<aside class="warning"><p><strong>Warning:</strong> While you can run the app on the emulator, audio and microphone capabilities would not work on the emulator and so you will not be able to use Slang to trigger actions in the app.</p>
+</aside>
+<h3 is-upgraded><strong>Create a virtual device (emulator)</strong></h3>
+<p>In this task, you will use the <a href="http://developer.android.com/tools/devices/managing-avds.html" target="_blank">Android Virtual Device (AVD) manager</a> to create a virtual device (also known as an emulator) that simulates the configuration for a particular type of Android device.</p>
+<p>The first step is to create a configuration that describes the virtual device.</p>
+<ol type="1" start="1">
+<li>In Android Studio, select <strong>Tools &gt; Android &gt; AVD Manager</strong>, or click the AVD Manager icon in the toolbar. <img style="width: 36.00px" src="img/970e4474b359ec62.png"></li>
+<li>Click <strong>+Create Virtual Device</strong>. (If you have created a virtual device before, the window shows all of your existing devices and the <strong>+Create Virtual Device</strong> button is at the bottom.) The Select Hardware dialog shows a list of preconfigured hardware device definitions.</li>
+<li>Choose a device definition, such as Nexus 5, and click <strong>Next</strong>. (It really doesn&#39;t matter which device definition you pick).</li>
+<li>In the <strong>System Image</strong> dialog, from the <strong>Recommended</strong> tab, choose <strong>Android Pie</strong>.</li>
+<li>If a <strong>Download</strong> link is visible next to a latest release, it is not installed yet, and you need to download it. If necessary, click the link to start the download, and click <strong>Next</strong> when it&#39;s done.</li>
+<li>In the next dialog box, accept the defaults, and click <strong>Finish</strong>.</li>
+<li>If the <strong>Your Virtual Devices</strong> AVD Manager window is still open, go ahead and close it.</li>
+</ol>
+<h3 is-upgraded><strong>Running the app on the emulator</strong></h3>
+<ol type="1" start="1">
+<li>In Android Studio, select <strong>Run &gt; Run app</strong> or click the <strong>Run</strong> icon in the toolbar. <img style="width: 24.00px" src="img/6c65750f2ce7f651.png"></li>
+</ol>
+<aside class="special"><p>If you get a dialog box saying &#34;Instant Run requires that the platform corresponding to your target device (Android N...) is installed&#34; go ahead and click <strong>Install and continue</strong>.</p>
+</aside>
+<p>In the <strong>Select Deployment Target</strong> dialog, under <strong>Available Virtual Devices</strong>, select the virtual device that you just configured and click <strong>OK</strong>.</p>
+<p>The emulator starts and boots just like a physical device. Depending on the speed of your computer, this may take a while. You can look in the small horizontal status bar at the very bottom of Android Studio for messages to see the progress.</p>
+<p>Once your app builds and the emulator is ready, Android Studio uploads the app to the emulator and runs it. You should see your app as shown in the following screenshot.</p>
+<p class="image-container"><img style="width: 253.74px" src="img/4c9825b20f1a1938.png"></p>
+<h2 is-upgraded>Troubleshooting</h2>
+<p>If you&#39;re stuck, quit Android Studio and restart it.</p>
+<p>If Android Studio does not recognize your device, try the following:</p>
+<ol type="1" start="1">
+<li>Disconnect your device from your development machine and reconnect it.</li>
+<li>Restart Android Studio.</li>
+</ol>
+<p>If your computer still does not find the device or declares it &#34;unauthorized&#34;:</p>
+<ol type="1" start="1">
+<li>Disconnect the device.</li>
+<li>On the device, open Settings-&gt;<strong>Developer Options</strong>.</li>
+<li>Tap <strong>Revoke USB Debugging authorizations</strong>.</li>
+<li>Reconnect the device to your computer.</li>
+<li>When prompted, grant authorizations.</li>
+</ol>
+<p>You may need to install the appropriate USB driver for your device. See the <a href="http://developer.android.com/tools/device.html" target="_blank">Using Hardware Devices documentation</a>.</p>
+<p>Check the <a href="https://developer.android.com/studio/index.html" target="_blank">latest Android Studio documentation</a>.</p>
+
+
+      </google-codelab-step>
+    
+      <google-codelab-step label="Add Views to your app" duration="0">
+        <p>In this task you will add two buttons to the user interface, as shown here:</p>
+<p class="image-container"><img style="width: 242.99px" src="img/8cc08d53fd0d5aa8.png"></p>
+<h2 is-upgraded>Open the layout editor</h2>
+<ol type="1" start="1">
+<li>Find and open the layout folder.</li>
+</ol>
+<p class="image-container"><img style="width: 282.00px" src="img/27af0b757c0facd9.png"></p>
+<ol type="1" start="2">
+<li>Double-click activity_main.xml.<br><br>The panel on the right, called the <em>layout editor</em>, displays the content of this file.</li>
+<li>At the bottom of the panel, notice the two tabs: <strong>Design</strong> and <strong>Text</strong>. Open the Text tab.</li>
+<li>The XML code that defines the layout appears in the Text tab.</li>
+</ol>
+<p class="image-container"><img style="width: 595.00px" src="img/c1948a0dfeaeeeae.png"></p>
+<h2 is-upgraded>Change View Properties</h2>
+<p>Firstly, change the <code>ConstraintLayout</code> to a <code>RelativeLayout</code>.</p>
+<p>Replace the <code>android.support.constraint.ConstraintLayout</code> on the second line of the XML file with <code>RelativeLayout</code>.</p>
+<ol type="1" start="1">
+<li>In the Text tab, you can now delete the following properties for the TextView.<br><br><img style="width: 406.00px" src="img/8079adfdc57028c8.png"></li>
+<li>Let us add an <code>id</code> to this TextView to make it uniquely identifiable.</li>
+</ol>
+<pre><code>android:id=&#34;@+id/textView&#34;</code></pre>
+<ol type="1" start="3">
+<li>Right now, you can see in the preview tab on the right that the text size is really small. Let us increase the text size. Add a new property called <code>textSize</code> to the TextView in the XML file.</li>
+</ol>
+<pre><code>android:textSize=&#34;36sp&#34;</code></pre>
+<ol type="1" start="4">
+<li>Let us also move this TextView to the center of our screen by adding the following property:</li>
+</ol>
+<pre><code>android:layout_centerInParent=&#34;true&#34;</code></pre>
+<p>This property ensures we have center-aligned the TextView both horizontally as well as vertically.</p>
+<ol type="1" start="5">
+<li>Now that our TextView is clear and noticeable, let us proceed to add more items.</li>
+</ol>
+<h2 is-upgraded>Add buttons to layout</h2>
+<ol type="1" start="1">
+<li>In the text tab, add a <strong>Button</strong> view and set its <code>layout_width</code> and <code>layout_height</code> properties to <code>wrap_content</code></li>
+<li>Add an <code>id</code> property to it, and set the <code>text</code> property to &#34;Button&#34;</li>
+<li>Use the <code>layout_below</code> property to place the button below the TextView. We will also add a property called <code>layout_marginTop</code> to the button as shown:</li>
+</ol>
+<pre><code>android:layout_below=&#34;@+id/textView&#34;
+android:layout_marginTop=&#34;32dp&#34;</code></pre>
+<ol type="1" start="4">
+<li>Add these lines to align the button slightly off of the left edge of the screen:</li>
+</ol>
+<pre><code>android:layout_alignParentLeft=&#34;true&#34;
+android:layout_marginLeft=&#34;16dp&#34;</code></pre>
+<ol type="1" start="5">
+<li>Your final code for the Button should look like this:</li>
+</ol>
+<pre><code>&lt;Button
+        android:layout_width=&#34;wrap_content&#34;
+        android:layout_height=&#34;wrap_content&#34;
+        android:id=&#34;@+id/button&#34;
+        android:text=&#34;Button&#34;
+        android:layout_below=&#34;@+id/textView&#34;
+        android:layout_marginTop=&#34;32dp&#34;
+        android:layout_alignParentLeft=&#34;true&#34;
+        android:layout_marginLeft=&#34;16dp&#34; /&gt;</code></pre>
+<ol type="1" start="6">
+<li>Now try adding a button yourself, but this time add it to the right side of the screen.</li>
+</ol>
+<aside class="warning"><p><strong>Note: </strong><code>id</code> property for every view in the project should be unique. Keep this in mind while assigning property values to the second button.</p>
+</aside>
+<p>Try to implement the code for the second button without looking at the code snippet below.</p>
+<p>Your final XML file should look like this:</p>
+<pre><code>&lt;?xml version=&#34;1.0&#34; encoding=&#34;utf-8&#34;?&gt;
+&lt;RelativeLayout xmlns:android=&#34;http://schemas.android.com/apk/res/android&#34;
+    xmlns:tools=&#34;http://schemas.android.com/tools&#34;
+    android:layout_width=&#34;match_parent&#34;
+    android:layout_height=&#34;match_parent&#34;
+    tools:context=&#34;.MainActivity&#34;&gt;
+
+    &lt;TextView
+        android:id=&#34;@+id/textView&#34;
+        android:layout_width=&#34;wrap_content&#34;
+        android:layout_height=&#34;wrap_content&#34;
+        android:text=&#34;Hello World!&#34;
+        android:textSize=&#34;36sp&#34;
+        android:layout_centerInParent=&#34;true&#34;/&gt;
+
+    &lt;Button
+        android:layout_width=&#34;wrap_content&#34;
+        android:layout_height=&#34;wrap_content&#34;
+        android:id=&#34;@+id/button&#34;
+        android:text=&#34;Button&#34;
+        android:layout_below=&#34;@+id/textView&#34;
+        android:layout_marginTop=&#34;32dp&#34;
+        android:layout_alignParentLeft=&#34;true&#34;
+        android:layout_marginLeft=&#34;16dp&#34; /&gt;
+
+    &lt;Button
+        android:layout_width=&#34;wrap_content&#34;
+        android:layout_height=&#34;wrap_content&#34;
+        android:id=&#34;@+id/button2&#34;
+        android:text=&#34;Button&#34;
+        android:layout_below=&#34;@+id/textView&#34;
+        android:layout_marginTop=&#34;32dp&#34;
+        android:layout_alignParentRight=&#34;true&#34;
+        android:layout_marginRight=&#34;16dp&#34; /&gt;
+
+&lt;/RelativeLayout&gt;</code></pre>
+<h2 is-upgraded>Get your UI ready for the next task</h2>
+<p>The next task is to make the buttons do something when they are pressed. Before learning how to make your buttons interactive, finish getting the UI ready.</p>
+<p>Change the text and <code>id</code> of the buttons. Set the Text and <code>id</code> as shown here:</p>
+<table>
+<tr><td colspan="1" rowspan="1"><p>Button</p>
+</td><td colspan="1" rowspan="1"><p>Text</p>
+</td><td colspan="1" rowspan="1"><p>id</p>
+</td></tr>
+<tr><td colspan="1" rowspan="1"><p>Left button</p>
+</td><td colspan="1" rowspan="1"><p>Toast</p>
+</td><td colspan="1" rowspan="1"><p>@+id/toast_button</p>
+</td></tr>
+<tr><td colspan="1" rowspan="1"><p>Right button</p>
+</td><td colspan="1" rowspan="1"><p>Attendance</p>
+</td><td colspan="1" rowspan="1"><p>@+id/attendance_button</p>
+</td></tr>
+</table>
+<p>You have added buttons to your app&#39;s main screen, but currently the buttons do nothing. You&#39;ll fix that in the next task.</p>
+
+
+      </google-codelab-step>
+    
+      <google-codelab-step label="Make your app interactive" duration="0">
+        <p>You have added buttons to your app&#39;s main screen, but currently, the buttons do nothing. In this task, you will make your button respond when the user presses the buttons.</p>
+<p>First, you will make the Toast button show a pop-up message called a <em>toast</em>. Next, you will make the Count button update the number that is displayed in the TextView.</p>
+<h2 is-upgraded>Show a toast</h2>
+<p class="image-container"><img style="width: 366.50px" src="img/79c535f11ac13981.png"></p>
+<p>In this step, you will add a method to the Toast button to show a toast when the user presses it. A toast is a short message that appears briefly at the bottom of the screen.</p>
+<ol type="1" start="1">
+<li>Open MainActivity.java. (Expand <strong>app &gt; java &gt; com.example.android.myfirstapp</strong> to find MainActivity).<br><br>This class has only one method, onCreate(). The onCreate() method executes when the activity starts.</li>
+<li>Examine the onCreate() method. Notice the line that calls setContentView(). This line sets the layout of the activity to activity_main.xml.</li>
+</ol>
+<pre><code>setContentView(R.layout.activity_main);</code></pre>
+<ol type="1" start="3">
+<li>Add a new method called toastMe() to the MainActivity class. The toastMe() method takes a single argument of a View. This is the view that receives the click event. </li>
+</ol>
+<p>The method creates and shows a toast. Here is the code:</p>
+<pre><code>/**
+* Show a toast
+* @param view -- the view that is clicked
+*/
+public void toastMe(View view){
+   // Toast myToast = Toast.makeText(this, message, duration);
+   Toast myToast = Toast.makeText(this, &#34;Hello Toast!&#34;, Toast.LENGTH_SHORT);
+   myToast.show();
+}</code></pre>
+<ol type="1" start="4">
+<li>In the Text tab for the layout file, add an android:onClick property to the Toast button. Set the value to <strong>toastMe</strong>.</li>
+</ol>
+<pre><code>android:onClick=&#34;toastMe&#34;</code></pre>
+<ol type="1" start="5">
+<li>Run the app and press the Toast button. Do you see the toasty message at the bottom of the screen?</li>
+</ol>
+
+
+      </google-codelab-step>
+    
+      <google-codelab-step label="Create a second activity" duration="0">
+        <p>So far, your app has a single screen. Now you will add a second activity that has its own screen.</p>
+<p>You will update the Attendance button to display a second activity that shows your attendance has been recorded.</p>
+<p class="image-container"><img style="width: 292.74px" src="img/ce0559a0c03bcddb.png"></p>
+<h2 is-upgraded>Create a new Activity</h2>
+<ol type="1" start="1">
+<li>Select the package name com.example.android.myfirstapp in <strong>apps &gt; java &gt; com.example.android.myfirstapp</strong>.</li>
+</ol>
+<p class="image-container"><img style="width: 319.00px" src="img/3e15e32325b46159.png"></p>
+<ol type="1" start="2">
+<li>Right click and select <strong>File &gt; New &gt; Activity &gt; Empty Activity</strong>.</li>
+</ol>
+<p class="image-container"><img style="width: 624.00px" src="img/f669335a4b2a8b03.png"></p>
+<ol type="1" start="3">
+<li>In the &#34;Configure Activity&#34; wizard, change the activity name to SecondActivity.</li>
+</ol>
+<p class="image-container"><img style="width: 624.00px" src="img/4302c6b593542ac1.png"></p>
+<aside class="special"><p>Make sure that the package name is correct for your app. If you didn&#39;t select the package name before you used the menus to add the new activity, you will need to set the package name to android.example.com.myfirstapp.</p>
+</aside>
+<ol type="1" start="4">
+<li>Press <strong>Finish</strong>. Android Studio creates the Java file and the XML layout file for the new activity.</li>
+<li>Wait for the gradle sync to finish in Android Studio.</li>
+</ol>
+<p>Gradle is the build system that Android Studio uses to compile and build the apps. You will see messages reporting the progress of the gradle build at the bottom of the screen.</p>
+<h2 is-upgraded>Create the layout for the new activity</h2>
+<p>The screen for the new activity will be initially blank, we will now add a TextView to this. </p>
+<h3 is-upgraded><strong>Add a TextView for the message</strong></h3>
+<ol type="1" start="1">
+<li>Open activity_second.xml. You see it has a ConstraintLayout that contains nothing. This is the default layout for activities created from the Empty Activity template.</li>
+<li>Add a <strong>TextView</strong> to the XML file. This TextView will be used to display the heading at the top of the screen.</li>
+<li>Set the width to <strong>match_parent</strong>, but set the height to <strong>wrap_content</strong>, so the height will change as needed to match the height of the content.</li>
+<li>Set the <code>id</code> to <strong>@+id/textview_label</strong>.</li>
+<li>Set the text color to <strong>@color/colorPrimaryDark</strong> and the text size to <strong>24sp</strong>.</li>
+<li>Set the text to &#34;<strong>You have been marked as present.</strong>&#34;</li>
+<li>Extract the text into a string resource called <strong>attendance_heading</strong>.</li>
+</ol>
+<p>Here is the XML code for the TextView that displays the heading:</p>
+<pre><code>&lt;TextView
+   android:id=&#34;@+id/attendance_label&#34;
+   android:layout_width=&#34;match_parent&#34;
+   android:layout_height=&#34;wrap_content&#34;
+   android:text=&#34;@string/attendance_heading&#34;
+   android:textColor=&#34;@color/colorPrimaryDark&#34;
+   android:textSize=&#34;24sp&#34;
+   app:layout_constraintBottom_toBottomOf=&#34;parent&#34;
+   app:layout_constraintLeft_toLeftOf=&#34;parent&#34;
+   app:layout_constraintRight_toRightOf=&#34;parent&#34;
+   app:layout_constraintTop_toTopOf=&#34;parent&#34;/&gt;</code></pre>
+<h2 is-upgraded>Start the second activity</h2>
+<p>To start a new activity, you create an Intent, then call startActivity() with that Intent. You will do that now.</p>
+<ol type="1" start="1">
+<li>Open the Java code for the main activity, MainActivity.java.</li>
+<li>Add a new method, markPresent(), that&#39;s invoked when the Attendance button is clicked.</li>
+</ol>
+<aside class="special"><p><strong>Hint</strong>: Take a look at the toastMe() method if you are confused about writing a method that is invoked by clicking a View.</p>
+</aside>
+<ol type="1" start="3">
+<li>Add this code to start the second activity inside the markPresent() method:</li>
+</ol>
+<pre><code>// Create an Intent to start the second activity
+Intent navigateIntent = new Intent(this, SecondActivity.class);
+
+// Start the new activity.
+startActivity(navigateIntent);</code></pre>
+<ol type="1" start="4">
+<li>Is there anything else you need to do to associate this method with the Attendance button? Do it now.</li>
+<li>Run the app. Click the Attendance button. The second activity appears.</li>
+</ol>
+
+
+      </google-codelab-step>
+    
+      <google-codelab-step label="Add Voice to your app" duration="0">
+        <p>Once you have successfully added Slang to your project, you will be able to see a Voice Trigger and on clicking the trigger you will see a surface pop up waiting for your speech input.</p>
+<p class="image-container"><img style="width: 274.84px" src="img/e6cfe85e9e600082.png"> <img style="width: 275.44px" src="img/f653f325c1dbf336.png"></p>
+<h2 is-upgraded>Android Activity Lifecycle</h2>
+<p>Before we deep dive into adding voice to our app, let us first take a look at the Android Activity lifecycle.</p>
+<p>An activity is a single, focused thing that the user can do. Almost all activities interact with the user, so the Activity class takes care of creating a window for you in which you can place your UI with <code>setContentView(View)</code>.</p>
+<p>The lifecycle is the set of states an activity can be in during its entire lifetime, from when it&#39;s created to when it&#39;s destroyed and the system reclaims its resources. As a user navigates between activities in your app (as well as into and out of your app), activities transition between different states in their lifecycles.</p>
+<p class="image-container"><img style="width: 624.00px" src="img/59d40f71d715436.png"></p>
+<ul>
+<li>For more information, you can check out <a href="https://developer.android.com/reference/android/app/Activity.html#activity-lifecycle" target="_blank">this</a> Android developers documentation page explaining the Activity lifecycle.</li>
+<li>You can also take a look at <a href="https://stackoverflow.com/a/4653671/7477675" target="_blank">this answer</a> from StackOverflow which takes an example and explains what each of the Activity lifecycle functions are supposed to be doing.</li>
+</ul>
+<h2 is-upgraded>Add Voice to the app</h2>
+<p>For this codelab, we have abstracted the entire process of schema building and writing handlers to trigger actions in your app, and you can go ahead and voice enable your app just by following the steps below.</p>
+<h3 is-upgraded><strong>Add Slang dependency</strong></h3>
+<ol type="1" start="1">
+<li>Open your app level <code>build.gradle</code> file (it would have <em>(Module: app)</em> written next to it)</li>
+<li>Add the following line in the block of code under <code>dependencies</code>.</li>
+</ol>
+<pre><code>implementation(&#39;in.slanglabs.sdk.android:slang_lib:1.0.17&#39;)</code></pre>
+<ol type="1" start="3">
+<li>Now open your project level build.gradle file. Under <code>repositories</code> under <code>allprojects</code> add the path to Slang&#39;s maven repository.</li>
+</ol>
+<pre><code>allprojects {
+    repositories {
+        google()
+        jcenter()
+        maven {
+            url &#34;http://maven.slanglabs.in:8080/artifactory/gradle-release&#34;
+        }
+    }
+}</code></pre>
+<ol type="1" start="4">
+<li>Now click on Sync Now and wait for Project Sync to be completed.</li>
+</ol>
+<p>Once the gradle sync finishes without any errors, you are good to go to the next step. This means you have successfully downloaded the Slang SDK in your project.</p>
+<h3 is-upgraded><strong>Add Java code to enable voice</strong></h3>
+<ol type="1" start="1">
+<li>Download SlangInterface.java file from this <a href="https://drive.google.com/open?id=1SFNFQAUzsWJN8PI8x4o_p5WG721Vcc5m" target="_blank">link</a>.</li>
+<li>Copy this file into the <strong>com.example.android.myfirstapp</strong> folder inside your <strong>java</strong> folder of your project.</li>
+<li>Open the SlangInterface file. You will see an <em>init()</em> function has been already written for you.</li>
+</ol>
+<pre><code>// To initialize Slang in your application, simply call SlangInterface.init(context)
+    static void init(Activity activity) {
+        try {
+            SlangBuddyOptions options = new SlangBuddyOptions.Builder()
+                    .setApplication(activity.getApplication())
+                    .setBuddyId(getAppId())
+                    .setAPIKey(getApiKey())
+                    .setListener(new BuddyListener(activity.getApplicationContext()))
+                    .setIntentAction(new SlangAttendanceAction())
+                    .setDefaultLocale(SlangLocale.LOCALE_ENGLISH_IN)
+                    .setEnvironment(SlangBuddy.Environment.PRODUCTION)
+                    .setConfigOverrides(getConfigOverrides())
+                    .setStartActivity(activity)
+                    .build();
+            SlangBuddy.initialize(options);
+
+        } catch (SlangBuddyOptions.InvalidOptionException e) {
+            e.printStackTrace();
+        } catch (SlangBuddy.InsufficientPrivilegeException e) {
+            e.printStackTrace();
+        }
+    }
+</code></pre>
+<ol type="1" start="4">
+<li>To initialize Slang, you will need to call this <em>init()</em> function from your MainActivity.java. Open MainActivity.java file</li>
+<li>In the onCreate function call the <em>init()</em> function to initialize Slang.</li>
+</ol>
+<pre><code>@Override
+    protected void onCreate(Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+        setContentView(R.layout.activity_main);
+
+        // this line initializes Slang in your app
+        SlangInterface.init(this);
+    }
+</code></pre>
+<p>The parameter <code>this</code> passes the current Activity as an argument to the init() function which is then provided to Slang as a parameter during initialization.</p>
+<p>Run the app. You should now get a trigger and you can try saying the following phrases to mark your attendance:</p>
+<ul>
+<li><em>&#34;Mark my attendance&#34;</em></li>
+<li><em>&#34;Hey I am present&#34;</em></li>
+<li><em>&#34;Mark attendance&#34;</em></li>
+</ul>
+<p>Congratulations! You have voice enabled your first app.</p>
+
+
+      </google-codelab-step>
+    
+  </google-codelab>
+
+  <script src="https://storage.googleapis.com/codelab-elements/native-shim.js"></script>
+  <script src="https://storage.googleapis.com/codelab-elements/custom-elements.min.js"></script>
+  <script src="https://storage.googleapis.com/codelab-elements/prettify.js"></script>
+  <script src="https://storage.googleapis.com/codelab-elements/codelab-elements.js"></script>
+
+</body>
+</html>
